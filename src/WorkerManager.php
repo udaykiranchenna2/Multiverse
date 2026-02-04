@@ -16,7 +16,7 @@ use RuntimeException;
  * Core class responsible for executing workers written in other languages.
  * Handles driver resolution, path management, security checks, and process execution.
  * 
- * @package NeuroPort\MultiLanguage
+ * @package MadeItEasyTools\MultiLanguage
  */
 class WorkerManager
 {
