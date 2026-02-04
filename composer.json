@@ -1,0 +1,38 @@
+{
+    "name": "madeiteasytools/multiverse",
+    "description": "Multi-Language Worker Integration for Laravel - Run Python, Node.js and more from your Laravel app",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Udaykiran Chenna",
+            "email": "madeiteasytools@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "MadeItEasyTools\\Multiverse\\": "src/",
+            "MadeItEasyTools\\Multiverse\\Database\\Factories\\": "database/factories/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "MadeItEasyTools\\Multiverse\\Tests\\": "tests/"
+        }
+    },
+    "require": {
+        "php": "^8.2",
+        "illuminate/support": "^11.0|^12.0",
+        "symfony/process": "^7.0"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "MadeItEasyTools\\Multiverse\\MultiverseServiceProvider"
+            ],
+            "aliases": {
+                "MultiWorker": "MadeItEasyTools\\Multiverse\\Facades\\MultiWorker"
+            }
+        }
+    }
+}
