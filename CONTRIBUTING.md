@@ -15,25 +15,7 @@ Thank you for considering contributing to MadeItEasyTools/Multiverse! This docum
 
 ## Code of Conduct
 
-### Our Pledge
-
-We are committed to providing a welcoming and inspiring community for all. Please be respectful and constructive in all interactions.
-
-### Expected Behavior
-
-- Use welcoming and inclusive language
-- Be respectful of differing viewpoints
-- Accept constructive criticism gracefully
-- Focus on what is best for the community
-
-### Unacceptable Behavior
-
-- Harassment or discriminatory language
-- Trolling or insulting comments
-- Publishing others' private information
-- Other conduct which could reasonably be considered inappropriate
-
----
+Please note that this project is released with a [Code of Conduct](CODE_OF_CONDUCT.md). By participating in this project you agree to abide by its terms.
 
 ## How Can I Contribute?
 
@@ -478,7 +460,7 @@ public function test_node_driver_executes_worker(): void
 
 - **Issues:** https://github.com/madeiteasytools/multiverse/issues
 - **Discussions:** https://github.com/madeiteasytools/multiverse/discussions
-- **Email:** support@neuroport.dev
+- **Email:** madeiteasytools@gmail.com
 
 ---
 
