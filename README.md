@@ -5,7 +5,7 @@
 Bridge the gap between PHP's web dominance and Python's data supremacy. Run "Workers" written in other languages as if they were native Laravel classes.
 
 [![Latest Version](https://img.shields.io/packagist/v/madeiteasytools/multiverse.svg?style=flat-square)](https://packagist.org/packages/madeiteasytools/multiverse)
-[![License](https://img.shields.io/packagist/l/madeiteasytools/multiverse.svg?style=flat-square)](LICENSE.md)
+[![License](https://camo.githubusercontent.com/850eae1099d2b05f53383473d7cd51f9bc1ab09b7d0d9e5122f1dd930efdcc6d/68747470733a2f2f696d672e736869656c64732e696f2f6769746875622f6c6963656e73652f6d6173686170652f6170697374617475732e737667)](LICENSE.md)
 
 ---
 
