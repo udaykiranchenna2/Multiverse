@@ -12,7 +12,7 @@ use function Laravel\Prompts\text;
 
 class MakeWorkerCommand extends Command
 {
-    protected $signature = 'make:worker {name? : The name of the worker} {--lang= : The language of the worker}';
+    protected $signature = 'multiverse:worker {name? : The name of the worker} {--lang= : The language of the worker}';
 
     protected $description = 'Create a new multi-language worker';
 

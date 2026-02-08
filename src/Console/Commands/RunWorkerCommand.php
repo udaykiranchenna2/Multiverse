@@ -9,7 +9,7 @@ use MadeItEasyTools\Multiverse\Facades\Multiverse;
 
 class RunWorkerCommand extends Command
 {
-    protected $signature = 'worker:run 
+    protected $signature = 'multiverse:run 
                             {worker : The name of the worker to run} 
                             {--payload= : JSON payload to send to the worker}';
 

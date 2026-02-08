@@ -18,7 +18,7 @@ Bridge the gap between PHP's web dominance and Python's data supremacy. Run "Wor
 - **🧹 Process Management**: Manual cleanup command for zombie processes
 - **🐍 Python Native**: First-class support for Python 3.x
 - **📦 Shared Dependencies**: One `requirements.txt` for all workers
-- **🛠️ Artisan Integration**: `make:worker`, `multiverse:install`, `multiverse:update`, `multiverse:clear`
+- **🛠️ Artisan Integration**: `multiverse:worker`, `multiverse:install`, `multiverse:update`, `multiverse:clear`
 - **🔒 Security**: Built-in static analysis to block dangerous commands
 
 ---
@@ -50,7 +50,7 @@ php artisan vendor:publish --tag=multiverse-config
 ### Create a Worker
 
 ```bash
-php artisan make:worker image_processor --lang=python
+php artisan multiverse:worker image_processor --lang=python
 ```
 
 ### Write Your Python Logic
@@ -81,9 +81,9 @@ if __name__ == "__main__":
 ### Run from Laravel
 
 ```php
-use MadeItEasyTools\Multiverse\Facades\MultiWorker;
+use MadeItEasyTools\Multiverse\Facades\Multiverse;
 
-$result = MultiWorker::run('image_processor', [
+$result = Multiverse::run('image_processor', [
     'image_url' => 'https://example.com/image.jpg'
 ]);
 
@@ -100,7 +100,7 @@ $result = MultiWorker::run('image_processor', [
 
 ```php
 // Workers run indefinitely by default
-$result = MultiWorker::run('long_task', $data);
+$result = Multiverse::run('long_task', $data);
 ```
 
 **Global Timeout:**
@@ -114,7 +114,7 @@ $result = MultiWorker::run('long_task', $data);
 
 ```php
 // Override timeout for specific execution
-$result = MultiWorker::run('worker_name', [
+$result = Multiverse::run('worker_name', [
     'data' => 'value',
     '_timeout' => 60  // 1 minute timeout
 ]);
@@ -127,7 +127,7 @@ use MadeItEasyTools\Multiverse\Exceptions\WorkerException;
 use MadeItEasyTools\Multiverse\Exceptions\TimeoutException;
 
 try {
-    $result = MultiWorker::run('risky_worker', $data);
+    $result = Multiverse::run('risky_worker', $data);
 } catch (TimeoutException $e) {
     // Worker exceeded timeout
     Log::error('Worker timed out', [
@@ -247,12 +247,13 @@ Block dangerous patterns in worker code:
 
 ## 🛠️ Artisan Commands
 
-| Command                            | Description                |
-| ---------------------------------- | -------------------------- |
-| `multiverse:install --lang=python` | Setup language environment |
-| `multiverse:update --lang=python`  | Update dependencies        |
-| `make:worker name --lang=python`   | Create new worker          |
-| `multiverse:clear [worker]`        | Kill zombie processes      |
+| Command                                | Description                |
+| -------------------------------------- | -------------------------- |
+| `multiverse:install --lang=python`     | Setup language environment |
+| `multiverse:update --lang=python`      | Update dependencies        |
+| `multiverse:worker name --lang=python` | Create new worker          |
+| `multiverse:run worker`                | Run worker manually        |
+| `multiverse:clear [worker]`            | Kill zombie processes      |
 
 ---
 
@@ -298,7 +299,7 @@ return [
 
 ```php
 // Run TensorFlow/PyTorch models
-$prediction = MultiWorker::run('ml_model', [
+$prediction = Multiverse::run('ml_model', [
     'image' => base64_encode($imageData)
 ]);
 ```
@@ -307,7 +308,7 @@ $prediction = MultiWorker::run('ml_model', [
 
 ```php
 // OpenCV operations
-$processed = MultiWorker::run('image_processor', [
+$processed = Multiverse::run('image_processor', [
     'path' => storage_path('images/photo.jpg'),
     'operation' => 'resize',
     'width' => 800
@@ -318,7 +319,7 @@ $processed = MultiWorker::run('image_processor', [
 
 ```php
 // Pandas/NumPy analysis
-$analysis = MultiWorker::run('data_analyzer', [
+$analysis = Multiverse::run('data_analyzer', [
     'csv_path' => storage_path('data.csv'),
     'operation' => 'statistics'
 ]);
@@ -328,7 +329,7 @@ $analysis = MultiWorker::run('data_analyzer', [
 
 ```php
 // BeautifulSoup/Scrapy
-$data = MultiWorker::run('scraper', [
+$data = Multiverse::run('scraper', [
     'url' => 'https://example.com',
     'selector' => '.product-price'
 ]);
