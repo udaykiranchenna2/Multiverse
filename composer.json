@@ -28,10 +28,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "MadeItEasyTools\\Multiverse\\MultiverseServiceProvider"
+                "MadeItEasyTools\\Multiverse\\Providers\\MultiverseServiceProvider"
             ],
             "aliases": {
-                "MultiWorker": "MadeItEasyTools\\Multiverse\\Facades\\MultiWorker"
+                "Multiverse": "MadeItEasyTools\\Multiverse\\Facades\\Multiverse"
             }
         }
     },
