@@ -19,44 +19,45 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## [1.0.0] - 2026-02-04
+## [1.0.0] - 2026-02-08
 
 ### Added
 
 - Initial release of MadeItEasyTools/Multiverse
 - Python 3.8+ support with shared virtual environments
 - Core `WorkerManager` class for executing workers
-- `MultiWorker` facade for convenient access
+- `Multiverse` facade for convenient access
 - Security scanning with configurable dangerous pattern detection
 - Path traversal protection for worker names
 - Artisan commands:
-    - `multiverse:install` - Setup language environments
-    - `multiverse:update` - Update language dependencies
-    - `make:worker` - Generate new worker files
-    - `worker:run` - Execute workers manually
+  - `multiverse:install` - Setup language environments
+  - `multiverse:update` - Update language dependencies
+  - `multiverse:worker` - Generate new worker files
+  - `multiverse:run` - Execute workers manually
+  - `multiverse:clear` - Clean up zombie processes
 - Configuration file (`config/multiverse.php`) with:
-    - Customizable workers directory path
-    - Language driver mappings
-    - Python-specific settings (venv path, requirements path)
-    - Security settings (scan toggle, dangerous patterns)
+  - Customizable workers directory path
+  - Language driver mappings
+  - Python-specific settings (venv path, requirements path)
+  - Security settings (scan toggle, dangerous patterns)
 - `PythonDriver` with:
-    - Shared virtual environment support
-    - Automatic dependency management
-    - Static code analysis before execution
+  - Shared virtual environment support
+  - Automatic dependency management
+  - Static code analysis before execution
 - Comprehensive documentation:
-    - README.md - Quick start guide
-    - DOCUMENTATION.md - Complete user guide
-    - API.md - API reference
-    - EXAMPLES.md - Real-world examples
-    - CHANGELOG.md - Version history
+  - README.md - Quick start guide
+  - DOCUMENTATION.md - Complete user guide
+  - API.md - API reference
+  - EXAMPLES.md - Real-world examples
+  - CHANGELOG.md - Version history
 - PHPDoc documentation for all public methods
 - Example workers:
-    - `glitch_art` - Image glitch effects using NumPy
-    - `privacy_guard` - Face detection and anonymization using OpenCV
+  - `glitch_art` - Image glitch effects using NumPy
+  - `privacy_guard` - Face detection and anonymization using OpenCV
 - Security features:
-    - Banned pattern detection (`rm -rf`, `shutil.rmtree`, `mkfs`, etc.)
-    - Worker name validation (alphanumeric, dashes, underscores only)
-    - Configurable security rules
+  - Banned pattern detection (`rm -rf`, `shutil.rmtree`, `mkfs`, etc.)
+  - Worker name validation (alphanumeric, dashes, underscores only)
+  - Configurable security rules
 
 ### Security
 

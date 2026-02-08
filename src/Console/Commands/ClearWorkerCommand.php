@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace MadeItEasyTools\Multiverse\Commands;
+namespace MadeItEasyTools\Multiverse\Console\Commands;
 
 use Illuminate\Console\Command;
 use Symfony\Component\Process\Process;

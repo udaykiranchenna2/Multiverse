@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace MadeItEasyTools\Multiverse\Commands;
+namespace MadeItEasyTools\Multiverse\Console\Commands;
 
 use Illuminate\Console\Command;
-use MadeItEasyTools\Multiverse\Facades\MultiWorker;
+use MadeItEasyTools\Multiverse\Facades\Multiverse;
 
 class RunWorkerCommand extends Command
 {
-    protected $signature = 'worker:run 
+    protected $signature = 'multiverse:run 
                             {worker : The name of the worker to run} 
                             {--payload= : JSON payload to send to the worker}';
 
@@ -40,7 +40,7 @@ class RunWorkerCommand extends Command
 
         try {
             $startTime = microtime(true);
-            $result = MultiWorker::run($workerName, $payload);
+            $result = Multiverse::run($workerName, $payload);
             $duration = round((microtime(true) - $startTime) * 1000, 2);
 
             $this->info("Worker finished in {$duration}ms");
