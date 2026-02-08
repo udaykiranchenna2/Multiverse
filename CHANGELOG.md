@@ -19,33 +19,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## [1.0.1] - 2026-02-08
-
-### Changed
-
-- **Renamed** Facade: `MultiWorker` is now `Multiverse`
-- **Renamed** Command: `make:worker` is now `multiverse:worker`
-- **Renamed** Command: `worker:run` is now `multiverse:run`
-- **Moved** Service Provider to `src/Providers/` namespace
-- **Moved** Console Commands to `src/Console/Commands/` namespace
-
----
-
-## [1.0.0] - 2026-02-04
+## [1.0.0] - 2026-02-08
 
 ### Added
 
 - Initial release of MadeItEasyTools/Multiverse
 - Python 3.8+ support with shared virtual environments
 - Core `WorkerManager` class for executing workers
-- `MultiWorker` facade for convenient access
+- `Multiverse` facade for convenient access
 - Security scanning with configurable dangerous pattern detection
 - Path traversal protection for worker names
 - Artisan commands:
   - `multiverse:install` - Setup language environments
   - `multiverse:update` - Update language dependencies
-  - `make:worker` - Generate new worker files
-  - `worker:run` - Execute workers manually
+  - `multiverse:worker` - Generate new worker files
+  - `multiverse:run` - Execute workers manually
+  - `multiverse:clear` - Clean up zombie processes
 - Configuration file (`config/multiverse.php`) with:
   - Customizable workers directory path
   - Language driver mappings
