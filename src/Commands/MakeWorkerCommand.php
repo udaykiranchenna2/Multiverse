@@ -121,7 +121,7 @@ output/
 .DS_Store
 Thumbs.db
 GITIGNORE;
-        
+
         File::put($path.'/.gitignore', $gitignore);
     }
 }

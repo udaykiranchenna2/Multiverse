@@ -62,4 +62,29 @@ return [
             'IMPORT_DANGER_TEST' => 'test rule trigger', // Safe dummy rule for testing
         ],
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Timeout Configuration
+    |--------------------------------------------------------------------------
+    |
+    | Default timeout for worker execution in seconds.
+    | Set to null for unlimited execution time.
+    | Can be overridden per-worker by passing '_timeout' in the payload.
+    |
+    */
+    'timeout' => null, // Unlimited by default
+
+    /*
+    |--------------------------------------------------------------------------
+    | Logging Configuration
+    |--------------------------------------------------------------------------
+    |
+    | Configure automatic error logging for failed workers.
+    |
+    */
+    'logging' => [
+        'enabled' => true,
+        'channel' => env('LOG_CHANNEL', 'stack'),
+    ],
 ];

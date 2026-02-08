@@ -6,6 +6,7 @@ namespace MadeItEasyTools\Multiverse\Facades;
 
 use Illuminate\Support\Facades\Facade;
 use MadeItEasyTools\Multiverse\WorkerManager;
+
 /**
  * @method static array run(string $workerName, array $payload = [])
  * @method static \MadeItEasyTools\MultiLanguage\Contracts\LanguageDriver driver(string $driver)

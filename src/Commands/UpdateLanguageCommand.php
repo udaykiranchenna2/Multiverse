@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace MadeItEasyTools\Multiverse\Commands;
 
 use Illuminate\Console\Command;
-use MadeItEasyTools\Multiverse\Process\ProcessRunner;
 use Illuminate\Support\Facades\File;
+use MadeItEasyTools\Multiverse\Process\ProcessRunner;
 
-use function Laravel\Prompts\info;
 use function Laravel\Prompts\error;
+use function Laravel\Prompts\info;
 use function Laravel\Prompts\spin;
 
 class UpdateLanguageCommand extends Command
@@ -31,6 +31,7 @@ class UpdateLanguageCommand extends Command
         if (! $lang) {
             error('Please specify a language using --lang option');
             info('Example: php artisan multiverse:update --lang=python');
+
             return;
         }
 
@@ -53,23 +54,25 @@ class UpdateLanguageCommand extends Command
         if (! is_dir($venvPath)) {
             error("Virtual environment not found at: {$venvPath}");
             error("Please run 'php artisan multiverse:install --lang=python' first.");
+
             return;
         }
 
         if (! File::exists($reqPath)) {
             error("requirements.txt not found at: {$reqPath}");
+
             return;
         }
 
         // Install Dependencies
         info('Installing/Updating dependencies from requirements.txt...');
-        
+
         try {
             spin(
                 fn () => $this->processRunner->run([$pipPath, 'install', '-r', $reqPath]),
                 'Processing requirements...'
             );
-            
+
             info('✓ Dependencies updated successfully');
         } catch (\Exception $e) {
             error('Failed to update dependencies.');
