@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace MadeItEasyTools\Multiverse;
 
 use Illuminate\Support\ServiceProvider;
+use MadeItEasyTools\Multiverse\Commands\ClearWorkerCommand;
+use MadeItEasyTools\Multiverse\Commands\InstallLanguageCommand;
 use MadeItEasyTools\Multiverse\Commands\MakeWorkerCommand;
 use MadeItEasyTools\Multiverse\Commands\RunWorkerCommand;
-use MadeItEasyTools\Multiverse\Commands\InstallLanguageCommand;
 use MadeItEasyTools\Multiverse\Commands\UpdateLanguageCommand;
 use MadeItEasyTools\Multiverse\Process\ProcessRunner;
 
@@ -38,6 +39,7 @@ class MultiverseServiceProvider extends ServiceProvider
                 RunWorkerCommand::class,
                 InstallLanguageCommand::class,
                 UpdateLanguageCommand::class,
+                ClearWorkerCommand::class,
             ]);
         }
     }

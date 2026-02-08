@@ -26,7 +26,7 @@ class PythonDriver implements LanguageDriver
         if (! is_dir($venvPath)) {
             throw new \RuntimeException(
                 "Python virtual environment not found at: {$venvPath}\n".
-                "Please run: php artisan multiverse:install --lang=python"
+                'Please run: php artisan multiverse:install --lang=python'
             );
         }
 
@@ -48,10 +48,10 @@ class PythonDriver implements LanguageDriver
         if (Config::get('multiverse.security.scan_for_dangerous_code', true) && file_exists($fullPath)) {
             $content = file_get_contents($fullPath);
             $dangerousPatterns = Config::get('multiverse.security.dangerous_patterns', []);
-            
+
             foreach ($dangerousPatterns as $pattern => $message) {
                 if (str_contains($content, $pattern)) {
-                     throw new \RuntimeException("Security Violation: Dangerous code detected in worker [{$scriptName}]: {$message}");
+                    throw new \RuntimeException("Security Violation: Dangerous code detected in worker [{$scriptName}]: {$message}");
                 }
             }
         }

@@ -8,10 +8,10 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 use MadeItEasyTools\Multiverse\Process\ProcessRunner;
 
-use function Laravel\Prompts\info;
 use function Laravel\Prompts\error;
-use function Laravel\Prompts\warning;
+use function Laravel\Prompts\info;
 use function Laravel\Prompts\spin;
+use function Laravel\Prompts\warning;
 
 class InstallLanguageCommand extends Command
 {
@@ -32,6 +32,7 @@ class InstallLanguageCommand extends Command
         if (! $lang) {
             error('Please specify a language using --lang option');
             info('Example: php artisan multiverse:install --lang=python');
+
             return;
         }
 
@@ -52,6 +53,7 @@ class InstallLanguageCommand extends Command
         } catch (\Exception $e) {
             error('Python 3 is not installed on your system.');
             error('Please install Python 3 first: https://www.python.org/downloads/');
+
             return;
         }
 
@@ -68,12 +70,12 @@ class InstallLanguageCommand extends Command
         // 3. Create virtual environment
         if (! is_dir($venvPath)) {
             info('Creating virtual environment...');
-            
+
             spin(
                 fn () => $this->processRunner->run(['python3', '-m', 'venv', $venvPath]),
                 'Setting up Python virtual environment...'
             );
-            
+
             info("✓ Virtual environment created at: {$venvPath}");
         } else {
             warning('Virtual environment already exists, skipping...');
@@ -88,7 +90,7 @@ class InstallLanguageCommand extends Command
         // 5. Upgrade pip
         info('Upgrading pip...');
         $pipPath = $venvPath.'/bin/pip';
-        
+
         spin(
             fn () => $this->processRunner->run([$pipPath, 'install', '--upgrade', 'pip']),
             'Upgrading pip...'
@@ -98,12 +100,12 @@ class InstallLanguageCommand extends Command
 
         // 6. Install Dependencies
         info('Installing dependencies from requirements.txt...');
-        
+
         spin(
             fn () => $this->processRunner->run([$pipPath, 'install', '-r', $reqPath]),
             'Installing dependencies...'
         );
-        
+
         info('✓ Dependencies installed successfully');
 
         // 7. Update .gitignore
@@ -126,14 +128,14 @@ class InstallLanguageCommand extends Command
     {
         // Get workers path from config (already includes base_path)
         $workersPath = config('multiverse.workers_path');
-        
+
         // If it's a relative path, make it absolute
-        if (!str_starts_with($workersPath, '/')) {
+        if (! str_starts_with($workersPath, '/')) {
             $workersPath = base_path($workersPath);
         }
-        
-        $gitignorePath = $workersPath . '/.gitignore';
-        
+
+        $gitignorePath = $workersPath.'/.gitignore';
+
         $multiverseRules = <<<'GITIGNORE'
 # Python Virtual Environments
 python/venv/
@@ -158,13 +160,13 @@ Thumbs.db
 GITIGNORE;
 
         // Ensure multiverse directory exists
-        if (!File::isDirectory($workersPath)) {
+        if (! File::isDirectory($workersPath)) {
             File::makeDirectory($workersPath, 0755, true);
         }
 
         // Always create/update .gitignore in multiverse folder
         $result = File::put($gitignorePath, $multiverseRules);
-        
+
         if ($result !== false && File::exists($gitignorePath)) {
             info("✓ Created .gitignore at: {$gitignorePath}");
         } else {

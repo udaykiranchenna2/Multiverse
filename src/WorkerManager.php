@@ -12,11 +12,9 @@ use RuntimeException;
 
 /**
  * WorkerManager
- * 
+ *
  * Core class responsible for executing workers written in other languages.
  * Handles driver resolution, path management, security checks, and process execution.
- * 
- * @package MadeItEasyTools\MultiLanguage
  */
 class WorkerManager
 {
@@ -30,21 +28,21 @@ class WorkerManager
 
     /**
      * Execute a worker with the given payload.
-     * 
+     *
      * This method:
      * 1. Validates the worker name for security
      * 2. Resolves the appropriate language driver
      * 3. Locates the worker script
      * 4. Executes the worker with the provided payload
      * 5. Returns the parsed JSON output
-     * 
-     * @param string $workerName The name of the worker to execute (alphanumeric, dashes, underscores only)
-     * @param array<string, mixed> $payload Data to pass to the worker as JSON
+     *
+     * @param  string  $workerName  The name of the worker to execute (alphanumeric, dashes, underscores only)
+     * @param  array<string, mixed>  $payload  Data to pass to the worker as JSON
      * @return array<string, mixed> The worker's output parsed as an associative array
-     * 
+     *
      * @throws InvalidArgumentException If worker name contains invalid characters
      * @throws RuntimeException If worker is not found or execution fails
-     * 
+     *
      * @example
      * ```php
      * $result = $workerManager->run('image_processor', [
@@ -95,9 +93,9 @@ class WorkerManager
             }
         }
 
-        // Performance Optimization: 
+        // Performance Optimization:
         // We do NOT call $driver->installDependencies() here anymore.
-        // Dependency installation should be handled by the deployment pipeline 
+        // Dependency installation should be handled by the deployment pipeline
         // or explicitly via 'php artisan multiverse:install' or a dedicated update command.
         // This avoids a 300ms+ overhead on every worker execution.
         // if ($this->config->get('multiverse.auto_sync_dependencies', false)) {
@@ -110,10 +108,37 @@ class WorkerManager
         // 4. Encode Payload
         $input = json_encode($payload);
 
-        // 5. Execute
-        $output = $this->processRunner->run($command, $workerPath, null, $input);
+        // 5. Get Timeout (from payload override or config default)
+        $timeout = $payload['_timeout'] ?? $this->config->get('multiverse.timeout', null);
 
-        // 6. Parse Output
+        // 6. Execute with error handling and logging
+        try {
+            $output = $this->processRunner->run($command, $workerPath, null, $input, $timeout);
+        } catch (\Symfony\Component\Process\Exception\ProcessTimedOutException $e) {
+            $exception = new \MadeItEasyTools\Multiverse\Exceptions\TimeoutException(
+                $workerName,
+                $driverName,
+                $timeout
+            );
+
+            $this->logWorkerError($workerName, $payload, $exception);
+
+            throw $exception;
+        } catch (RuntimeException $e) {
+            $exception = new \MadeItEasyTools\Multiverse\Exceptions\WorkerException(
+                "Worker [{$workerName}] failed: ".$e->getMessage(),
+                $workerName,
+                $driverName,
+                $e->getCode(),
+                $e->getMessage()
+            );
+
+            $this->logWorkerError($workerName, $payload, $exception);
+
+            throw $exception;
+        }
+
+        // 7. Parse Output
         $result = json_decode($output, true);
         if (json_last_error() !== JSON_ERROR_NONE) {
             // If output is not JSON, return raw
@@ -124,6 +149,25 @@ class WorkerManager
         }
 
         return $result;
+    }
+
+    /**
+     * Log worker errors to Laravel log if logging is enabled.
+     */
+    protected function logWorkerError(string $workerName, array $payload, \Exception $exception): void
+    {
+        if (! $this->config->get('multiverse.logging.enabled', true)) {
+            return;
+        }
+
+        \Illuminate\Support\Facades\Log::channel(
+            $this->config->get('multiverse.logging.channel', 'stack')
+        )->error("Multiverse Worker Failed: {$workerName}", [
+            'worker' => $workerName,
+            'payload' => $payload,
+            'error' => $exception->getMessage(),
+            'exception' => get_class($exception),
+        ]);
     }
 
     public function driver(string $driver): LanguageDriver
@@ -142,6 +186,6 @@ class WorkerManager
 
         return $this->drivers[$driver];
     }
-    
+
     // Queue method removed as per user request to let developer handle job dispatching manually if needed.
 }

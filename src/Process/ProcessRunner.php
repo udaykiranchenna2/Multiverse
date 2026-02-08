@@ -9,17 +9,40 @@ use Symfony\Component\Process\Process;
 
 class ProcessRunner
 {
-    public function run(array $command, ?string $cwd = null, ?array $env = null, ?string $input = null): string
+    /**
+     * Run a process with optional timeout.
+     *
+     * @param  array  $command  Command and arguments to execute
+     * @param  string|null  $cwd  Working directory
+     * @param  array|null  $env  Environment variables
+     * @param  string|null  $input  Input to send to stdin
+     * @param  float|null  $timeout  Timeout in seconds (null = unlimited)
+     * @return string Process output
+     *
+     * @throws RuntimeException If process fails
+     */
+    public function run(array $command, ?string $cwd = null, ?array $env = null, ?string $input = null, ?float $timeout = null): string
     {
-        // Set timeout to null (unlimited) or a configurable value
-        $process = new Process($command, $cwd, $env, $input, null);
+        $process = new Process($command, $cwd, $env, $input, $timeout);
 
         $process->run();
 
         if (! $process->isSuccessful()) {
-            throw new RuntimeException($process->getErrorOutput());
+            throw new RuntimeException(
+                $process->getErrorOutput() ?: $process->getOutput(),
+                $process->getExitCode() ?? 1
+            );
         }
 
         return $process->getOutput();
+    }
+
+    /**
+     * Get the stderr output from the last process run.
+     * This is useful for debugging when a process fails.
+     */
+    public function getErrorOutput(Process $process): string
+    {
+        return $process->getErrorOutput();
     }
 }
